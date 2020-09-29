@@ -41,4 +41,21 @@ individual component json definition: always provide an attribute "type"
 * characters and allies: {"type" : "character", "x" : 0, "y" : 0, "initiative" : 50, "secondary_initiative" : 70, "summon_rank" : 1, "is_invisible" : false}.  Notes: secondary_initiative may be omitted for allies without cards, and will be the 2nd card for characters and character summons.  summon_rank should be 0, null, or omitted for allies and characters, and will be the 1-based rank describing the order in which summons were summoned by a character; for matching initiative and secondary_initiative (assumed to be associated with the same summoner) characters move in order of summon_rank 1, 2, 3, ..., 0.
 * monsters: {"type" : "monster", "x" : 0, "y" : 0, "initiative" : 50, "move" : {}}.  move will only be provided for the monster in question and should be null for all other monsters.
 
-Move description ("move" attribute of "monster" document).
+Let's ignore other status effects on characters and monsters right now.  If stunned don't move.  If immobilized it's usually obvious.  If disarmed move as if you have a simple melee attack.
+
+Move description ("move" attribute of "monster" document):
+A json list of the individual move components.  Each move component may have the following fields, and any of these fields may be omitted or its value null if not applicable
+* attack X
+* range X.  Can range 1 indicate melee or is there such a thing as range 1 (that would have disadvantage)?
+* target X
+* move X
+* heal self X
+* heal target X
+* AoE description -- TBD.  Likely json documents of form {"x" : 0, "y" : 0, "is_actor" : true} where is_actor is true in only one hex (if the AoE is a melee attack, this indicates the hex where the actor must be standing).
+
+I don't think we need to consider status effects yet.  They shouldn't impact movement.
+
+list other move attributes:
+* adjacent enemies suffer damage
+* enemies adjacent to target suffer damage (can monsters do this?)
+* add damage if target adjacent/not adjacent to any of the actor's allies/enemies.
