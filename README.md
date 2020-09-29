@@ -9,3 +9,36 @@ Development order:
 * Make the input move complex, including all walls.  Check that the walls form a closed shape.
 * Build a library of stock rooms that may be merged with a simpler input of monsters and allies (so that we don't need to always provide walls, obstacles, etc -- things that rarely change)
 * wrap the whole thing in a GUI
+
+initial input format proposal.  A Json list containing board elements and descriptions:
+* walls as individual segments.  A wall is named by the 2 hexes whose adjacent side is a wall.  We name segments, not hexes, as adjacent valid hexes may still have a wall separating them (e.g., those next to doors).  It is assumed and validated that walls form a closed shape
+* obstacles
+* coins
+* treasure tiles
+* traps
+* difficult terrain
+* hazardous terrain
+* closed doors
+* characters and allies, including initiative (which includes 2nd card) and status (notably invisible)
+* character allies and summons, including initiative
+* non-moving enemies, including initiative (for heal and other ally-targetting moves)
+* enemy in question, including initiative and move description.
+
+Coordinates:
+I'm going to arbitrarily choose Axial coordinates -- https://www.redblobgames.com/grids/hexagons/#coordinates-axial
+I will always assume horizontal hexes (pointy tops), where (x, y) uses x as the horizontal dimension, and y is the dimension that forms a negative slope moving to the right (looks like "\").  We'll call z the dimension forming a positive slope the right (looks like "/") and this is omitted from the coordinates.
+When using vertical hexes (flat tops) you must rotate the map 90 degrees to make it horizontal.  Hopefully in the future once we have a GUI we'll do this for the user.
+
+individual component json definition: always provide an attribute "type"
+walls: name the 2 hexes whose adjoining side forms a wall: {"type" : "wall", "hex1_x" : 0, "hex1_y" : 0, "hex2_x" : 0, "hex2_y" : 1}
+obstacles: a list of the coordinates making up the obstacle: {"type" : "obstacle", "hexes" : [{"x" : 0, "y", 0}]}
+coins: hex and coin count: {"type" : "coin", "x" : 0, "y" : 0, "count" : 2}
+treasure: hex: {"type" : "treasure", "x" : 0, "y" : 0}
+traps: hex: {"type" : "trap", "x" : 0, "y" : 0}
+hazardous terrain: {"type" : "hazardous_terrain", "x" : 0, "y" : 0}
+difficult terrain: {"type" : "difficult_terrain", "x" : 0, "y" : 0}
+closed door: {"type" : "closed_door", "x" : 0, "y" : 0}
+characters and allies: {"type" : "character", "x" : 0, "y" : 0, "initiative" : 50, "secondary_initiative" : 70, "summon_rank" : 1, "is_invisible" : false}.  Notes: secondary_initiative may be omitted for allies without cards, and will be the 2nd card for characters and character summons.  summon_rank should be 0, null, or omitted for allies and characters, and will be the 1-based rank describing the order in which summons were summoned by a character; for matching initiative and secondary_initiative (assumed to be associated with the same summoner) characters move in order of summon_rank 1, 2, 3, ..., 0.
+monsters: {"type" : "monster", "x" : 0, "y" : 0, "initiative" : 50, "move" : {}}.  move will only be provided for the monster in question and should be null for all other monsters.
+
+Move description ("move" attribute of "monster" document).
