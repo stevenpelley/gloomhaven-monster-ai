@@ -30,15 +30,15 @@ I will always assume horizontal hexes (pointy tops), where (x, y) uses x as the 
 When using vertical hexes (flat tops) you must rotate the map 90 degrees to make it horizontal.  Hopefully in the future once we have a GUI we'll do this for the user.
 
 individual component json definition: always provide an attribute "type"
-walls: name the 2 hexes whose adjoining side forms a wall: {"type" : "wall", "hex1_x" : 0, "hex1_y" : 0, "hex2_x" : 0, "hex2_y" : 1}
-obstacles: a list of the coordinates making up the obstacle: {"type" : "obstacle", "hexes" : [{"x" : 0, "y", 0}]}
-coins: hex and coin count: {"type" : "coin", "x" : 0, "y" : 0, "count" : 2}
-treasure: hex: {"type" : "treasure", "x" : 0, "y" : 0}
-traps: hex: {"type" : "trap", "x" : 0, "y" : 0}
-hazardous terrain: {"type" : "hazardous_terrain", "x" : 0, "y" : 0}
-difficult terrain: {"type" : "difficult_terrain", "x" : 0, "y" : 0}
-closed door: {"type" : "closed_door", "x" : 0, "y" : 0}
-characters and allies: {"type" : "character", "x" : 0, "y" : 0, "initiative" : 50, "secondary_initiative" : 70, "summon_rank" : 1, "is_invisible" : false}.  Notes: secondary_initiative may be omitted for allies without cards, and will be the 2nd card for characters and character summons.  summon_rank should be 0, null, or omitted for allies and characters, and will be the 1-based rank describing the order in which summons were summoned by a character; for matching initiative and secondary_initiative (assumed to be associated with the same summoner) characters move in order of summon_rank 1, 2, 3, ..., 0.
-monsters: {"type" : "monster", "x" : 0, "y" : 0, "initiative" : 50, "move" : {}}.  move will only be provided for the monster in question and should be null for all other monsters.
+* walls: name the 2 hexes whose adjoining side forms a wall: {"type" : "wall", "hex1_x" : 0, "hex1_y" : 0, "hex2_x" : 0, "hex2_y" : 1}
+* obstacles: a list of the coordinates making up the obstacle: {"type" : "obstacle", "hexes" : [{"x" : 0, "y", 0}]}
+* coins: hex and coin count: {"type" : "coin", "x" : 0, "y" : 0, "count" : 2}
+* treasure: hex: {"type" : "treasure", "x" : 0, "y" : 0}
+* traps: hex: {"type" : "trap", "x" : 0, "y" : 0}
+* hazardous terrain: {"type" : "hazardous_terrain", "x" : 0, "y" : 0}
+* difficult terrain: {"type" : "difficult_terrain", "x" : 0, "y" : 0}
+* closed door: {"type" : "closed_door", "x" : 0, "y" : 0}
+* characters and allies: {"type" : "character", "x" : 0, "y" : 0, "initiative" : 50, "secondary_initiative" : 70, "summon_rank" : 1, "is_invisible" : false}.  Notes: secondary_initiative may be omitted for allies without cards, and will be the 2nd card for characters and character summons.  summon_rank should be 0, null, or omitted for allies and characters, and will be the 1-based rank describing the order in which summons were summoned by a character; for matching initiative and secondary_initiative (assumed to be associated with the same summoner) characters move in order of summon_rank 1, 2, 3, ..., 0.
+* monsters: {"type" : "monster", "x" : 0, "y" : 0, "initiative" : 50, "move" : {}}.  move will only be provided for the monster in question and should be null for all other monsters.
 
 Move description ("move" attribute of "monster" document).
