@@ -1,5 +1,6 @@
 def main():
-    print("eric writes silly variable names")
+    s = "eric writes silly variable names"
+    print(s)
 
 if __name__=='__main__':
     main()
