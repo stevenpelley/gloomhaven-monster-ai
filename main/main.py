@@ -1,8 +1,12 @@
-def main():
+def main() -> None:
     s = "eric writes silly variable names"
-    print(s)
+    test_string = "Hello"
+    print("{} - {}".format(s, test_string))
 
-    test_string = "Hello";
 
-if __name__=='__main__':
+def test_func_with_type(arg: str) -> bool:
+    return arg == "nothing"
+
+
+if __name__ == '__main__':
     main()
