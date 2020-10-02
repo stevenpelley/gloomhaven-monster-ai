@@ -1,14 +1,22 @@
+"""Run script for all linters."""
 import subprocess
 import sys
 import typing
 
 
 def main() -> None:
+    """Run all linters.
+
+    Linter output will be sent to stdout.
+    This function will exit the script with return code 0 on success, and other
+    value on failure.
+    """
     is_success: bool = True
     for linter_input in [
-            ['flake8', '--max-complexity', '8' '.'],
+            ['flake8', '--max-complexity', '8', '.'],
             ['mypy', '--strict', '.'],
             ['pydocstyle', '.'],
+            ['autopep8', '-r', '-d', '-a', '-a', '--exit-code', '.']
     ]:
         this_success = run_single_linter(linter_input)
         is_success = is_success and this_success
@@ -22,9 +30,9 @@ def main() -> None:
 
 
 def run_single_linter(args: typing.List[str]) -> bool:
-    """returns true if the linter passes, and false if it fails"""
+    """Return true if the linter passes, and false if it fails."""
     p = subprocess.run(args, stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE, text=True)
+                       stderr=subprocess.STDOUT, text=True)
     if p.returncode != 0:
         print("{} failure:".format(args[0]))
         print(p.stdout)
@@ -35,4 +43,5 @@ def run_single_linter(args: typing.List[str]) -> bool:
 
 
 if __name__ == "__main__":
+    """Run the main function as a script."""
     main()

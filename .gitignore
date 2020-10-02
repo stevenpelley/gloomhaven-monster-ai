@@ -1,0 +1,4 @@
+.coverage
+Pipfile.lock
+.idea/workspace.xml
+*/__pycache__/*
