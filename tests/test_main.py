@@ -1,8 +1,8 @@
-import main.main
+import src.main
 
 
 def test_main() -> None:
-    assert main.main.test_func_with_type("nothing")
-    assert not main.main.test_func_with_type("something")
+    assert src.main.test_func_with_type("nothing")
+    assert not src.main.test_func_with_type("something")
     # shouldn't throw
-    main.main.main()
+    src.main.main()
