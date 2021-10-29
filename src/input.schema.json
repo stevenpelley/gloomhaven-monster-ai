@@ -1,0 +1,90 @@
+{
+  "title": "gloomhaven-monster-ai input schema",
+  "description": "schema describing all fields and constraints of the program input",
+  "type": "object",
+  "properties": {
+    "characters": {
+      "description": "list of the player characters on the board",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name" : {
+            "description": "name of the character",
+            "type": "string"
+          },
+          "initiative" : {
+            "description": "initiative (first card)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "initiative2" : {
+            "description": "initiative (second card).  Used only for breaking ties",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "x" : {
+            "description": "x coordinate location",
+            "type": "integer"
+          },
+          "y" : {
+            "description": "y coordinate location",
+            "type": "integer"
+          }
+        },
+        "required": ["name", "initiative", "initiative2", "x", "y"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "monsters": {
+      "description": "list of the monsters on the board, including the \"moving monster\"",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name" : {
+            "description": "name of the monster",
+            "type": "string"
+          },
+          "number" : {
+            "description": "placard number of the monster",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "initiative" : {
+            "description": "initiative of the monster",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "x" : {
+            "description": "x coordinate location",
+            "type": "integer"
+          },
+          "y" : {
+            "description": "y coordinate location",
+            "type": "integer"
+          }
+        },
+        "required": ["name", "number","initiative", "x", "y"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "mm_name": {
+      "description": "moving monster name.  The pair of moving monster name and id must match some monster in \"monsters\"",
+      "type": "string"
+    },
+    "mm_num": {
+      "description": "moving monster number.  The pair of moving monster name and id must match some monster in \"monsters\"",
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": ["characters", "monsters", "mm_name", "mm_num"],
+  "additionalProperties": false
+}
