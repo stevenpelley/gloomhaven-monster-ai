@@ -48,15 +48,19 @@ class CharacterDTO(object):
         self.x = dct['x']
         self.y = dct['y']
 
-    def __str__(self) -> str:
-        """Return a string for the object."""
-        return json.dumps({
+    def json_default(self) -> typing.Any:
+        """Override json serialization via __init__.py monkey patch."""
+        return {
             "name": self.name,
             "initiative": self.initiative,
             "initiative2": self.initiative2,
             "x": self.x,
             "y": self.y,
-        })
+        }
+
+    def __str__(self) -> str:
+        """Return a string for the object."""
+        return json.dumps(self)
 
 
 class MonsterDTO(object):
@@ -85,15 +89,19 @@ class MonsterDTO(object):
         self.x = dct['x']
         self.y = dct['y']
 
-    def __str__(self) -> str:
-        """Return a string for the object."""
-        return json.dumps({
+    def json_default(self) -> typing.Any:
+        """Override json serialization via __init__.py monkey patch."""
+        return {
             "name": self.name,
             "number": self.number,
             "initiative": self.initiative,
             "x": self.x,
             "y": self.y,
-        })
+        }
+
+    def __str__(self) -> str:
+        """Return a string for the object."""
+        return json.dumps(self)
 
 
 class InputDTO(object):
@@ -172,28 +180,45 @@ class InputDTO(object):
                         location_to_object[location], obj))
             location_to_object[location] = obj
 
+    def json_default(self) -> typing.Any:
+        """Override json serialization via __init__.py monkey patch."""
+        return {
+            "characters": self.characters,
+            "monsters": self.monsters,
+            "mm_name": self.mm_name,
+            "mm_num": self.mm_num,
+        }
+
     def __str__(self) -> str:
         """Return a string for the object."""
-        return json.dumps(self._dct)
+        return json.dumps(self)
 
 
 def decode(input_str: str) -> InputDTO:
     """Decode the input or raise an exception."""
+    logger.debug("starting input decode. input: %s", input_str)
     # parse the json
     dct: dict[str, typing.Any] = json.loads(input_str)
+    logger.debug("loaded json")
     return construct(dct)
 
 
 def construct(input_dict: dict[str, typing.Any]) -> InputDTO:
     """Construct the input objects, validating along the way."""
     # load the schema
+    logger.debug("loading input.schema.json")
     path = pathlib.Path(__file__).parent / "input.schema.json"
     with path.open() as f:
         schema_text = f.read()
     schema = json.loads(schema_text)
 
     # validate with schema
+    logger.debug("validating input with schema")
     jsonschema.validate(input_dict, schema)
+    logger.debug("input validated with schema")
 
     # construct the input object.  Performs additional validation
-    return InputDTO(input_dict)
+    logger.debug("constructing input DTOs")
+    dto = InputDTO(input_dict)
+    logger.debug("constructed final DTO: %s", dto)
+    return dto
