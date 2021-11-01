@@ -9,6 +9,8 @@ def main() -> None:
     p = subprocess.run(['pytest',
                         '--cov=src',
                         '--cov-fail-under=100',
+                        '--no-cov-on-fail',
+                        '--cov-report=term-missing',
                         '.'],
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE,

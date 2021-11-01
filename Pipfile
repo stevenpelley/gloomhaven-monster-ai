@@ -15,6 +15,7 @@ pyflakes = "*"
 flake8 = "*"
 pytest = "*"
 pytest-cov = "*"
+jsonschema = "*"
 
 [requires]
 python_version = "3.8"
